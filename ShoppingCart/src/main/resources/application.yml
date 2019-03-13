@@ -1,0 +1,23 @@
+server:
+  port: 8090
+logging:
+  level: 
+    org: 
+      springframework: 
+        web: DEBUG
+
+spring: 
+  h2: 
+    console: 
+      enabled: true
+      path: /h2
+
+  datasource: 
+    url: jdbc:h2:file:~/shoppingcart1
+    user: sa
+    password: pass
+    driver-class-name: org.h2.Driver
+
+hibernate: 
+  hbm2ddl: 
+    auto: true
