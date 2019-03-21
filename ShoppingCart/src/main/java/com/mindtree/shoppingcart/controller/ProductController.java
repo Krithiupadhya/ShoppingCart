@@ -14,13 +14,13 @@ import com.mindtree.shoppingcart.model.Product;
 import com.mindtree.shoppingcart.service.ProductService;
 
 @RestController
-@RequestMapping("/rest")
+@RequestMapping("/ShoppingCart/rest")
 public class ProductController {
 
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping(method=RequestMethod.GET, value="/products")
+	@RequestMapping(method=RequestMethod.GET, value="/product")
 	public ResponseEntity<List<Product>> getProducts() throws ApplicationException{
 		
 		List<Product> products=  productService.getAllProducts();

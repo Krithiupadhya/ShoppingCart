@@ -1,32 +1,39 @@
 package com.mindtree.shoppingcart.model;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Table(name="CARTS")
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Cart {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private long cartId;
+	private Long cartId;
 	
 	@OneToOne
 	private User user;
 	
-	@OneToMany
-	@JoinTable(name="CART_ITEMS")
-	private List<CartItem> cartItems;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="cart_id")
+	private Set<CartItem> cartItems;
 	
 }

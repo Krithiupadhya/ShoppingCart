@@ -2,10 +2,18 @@ server:
   port: 8090
 logging:
   level: 
+    ROOT: ERROR
     org: 
       springframework: 
         web: DEBUG
-
+      hibernate: DEBUG 
+    com.mindtree.shoppingcart: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: logs/application-debug.log
+  
+  
 spring: 
   h2: 
     console: 
@@ -13,11 +21,14 @@ spring:
       path: /h2
 
   datasource: 
-    url: jdbc:h2:file:~/shoppingcart1
+    url: jdbc:h2:file:~/shoppingcart2
     user: sa
     password: pass
     driver-class-name: org.h2.Driver
-
+  jpa.properties.javax.persistence.validation.mode: none
+  jpa.show-sql: true
+  
 hibernate: 
   hbm2ddl: 
     auto: true
+
