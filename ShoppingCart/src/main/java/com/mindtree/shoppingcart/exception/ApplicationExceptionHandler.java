@@ -20,18 +20,21 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 	
 	@ExceptionHandler(ApplicationException.class)
 	public ResponseEntity<ErrorResponse> handleApplicationException(ApplicationException e , HttpServletRequest request ){
+		logger.error(e.getMessage(), e);
 		ErrorResponse errorResponse= new ErrorResponse(LocalDateTime.now(), e.getMessage(), request.getRequestURI());
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@ExceptionHandler(DataNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleDataNotFoundException(DataNotFoundException e , HttpServletRequest request ){
+		logger.error(e.getMessage(), e);
 		ErrorResponse errorResponse= new ErrorResponse(LocalDateTime.now(), e.getMessage(), request.getRequestURI());
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 	
 	@ExceptionHandler(InvalidInputException.class)
 	public ResponseEntity<ErrorResponse> handleInvalidInputException(InvalidInputException e , HttpServletRequest request ){
+		logger.error(e.getMessage(), e);
 		ErrorResponse errorResponse= new ErrorResponse(LocalDateTime.now(), e.getMessage(), request.getRequestURI());
 		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
 	}

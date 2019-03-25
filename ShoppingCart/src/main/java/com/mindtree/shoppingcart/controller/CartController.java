@@ -44,21 +44,20 @@ public class CartController {
 	
 	@RequestMapping(value="/cart", method= RequestMethod.POST)
 	public ResponseEntity<CartDTO> createCart(@Valid @RequestBody CartDTO cartDTO) {
-		/*if(cart==null || cart.getCartItems()==null || cart.getCartItems().isEmpty()) {
-			logger.error("Cart details is invalid: "+cart);
-			throw new InvalidInputException("Cart details is invalid!!");
-		}*/
-		
+			
 		cartDTO = cartService.addCartDetails(cartDTO);
 		
 		return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value="/cart/{cartItem}/product", method= RequestMethod.POST)
-	public ResponseEntity<CartDTO> addProductToCart(@PathParam("cartItem") String cartItemId,
+	public ResponseEntity<CartDTO> addProductToCart(@PathVariable("cartItem") String cartItemId,
 			@Valid @RequestBody ProductDTO productDTO ) {
 		
+		
 		CartDTO cartDTO = cartService.getCartDetails(cartItemId);
+		
+		
 		
 		return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.OK);
 	}

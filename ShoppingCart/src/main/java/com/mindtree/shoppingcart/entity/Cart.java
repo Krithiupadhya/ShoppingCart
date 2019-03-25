@@ -1,4 +1,4 @@
-package com.mindtree.shoppingcart.model;
+package com.mindtree.shoppingcart.entity;
 
 import java.util.Set;
 

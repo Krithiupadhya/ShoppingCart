@@ -2,7 +2,7 @@ package com.mindtree.shoppingcart.dto;
 
 import java.util.Set;
 
-import com.mindtree.shoppingcart.model.User;
+import com.mindtree.shoppingcart.entity.User;
 import com.mindtree.shoppingcart.validators.UserExists;
 
 import lombok.AllArgsConstructor;
