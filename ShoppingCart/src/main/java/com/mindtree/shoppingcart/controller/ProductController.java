@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mindtree.shoppingcart.entity.Product;
 import com.mindtree.shoppingcart.exception.ApplicationException;
-import com.mindtree.shoppingcart.model.Product;
 import com.mindtree.shoppingcart.service.ProductService;
 
 @RestController

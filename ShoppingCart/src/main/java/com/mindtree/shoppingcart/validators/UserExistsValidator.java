@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mindtree.shoppingcart.model.User;
+import com.mindtree.shoppingcart.entity.User;
 import com.mindtree.shoppingcart.repository.UserRepository;
 
 @Transactional

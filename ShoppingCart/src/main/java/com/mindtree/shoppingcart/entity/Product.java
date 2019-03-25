@@ -1,4 +1,4 @@
-package com.mindtree.shoppingcart.model;
+package com.mindtree.shoppingcart.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,5 +23,5 @@ public class Product{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer productId;
 	private String productName;
-	private float price;
+	private double price;
 }

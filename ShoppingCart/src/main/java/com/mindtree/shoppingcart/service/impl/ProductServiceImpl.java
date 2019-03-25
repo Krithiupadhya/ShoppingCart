@@ -2,18 +2,22 @@ package com.mindtree.shoppingcart.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mindtree.shoppingcart.entity.Product;
 import com.mindtree.shoppingcart.exception.ApplicationException;
 import com.mindtree.shoppingcart.exception.DataNotFoundException;
-import com.mindtree.shoppingcart.model.Product;
 import com.mindtree.shoppingcart.repository.ProductRepository;
 import com.mindtree.shoppingcart.service.ProductService;
 
 @Service
+@Transactional(value=TxType.SUPPORTS)
 public class ProductServiceImpl implements ProductService {
 
 	private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
