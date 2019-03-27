@@ -1,7 +1,8 @@
 package com.mindtree.shoppingcart.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,36 +31,53 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
+	
+	@RequestMapping(value="/cart", method= RequestMethod.POST)
+	public ResponseEntity<CartDTO> createCart(@Valid @RequestBody CartDTO cartDTO) {
+		logger.trace("Creating a new cart");
+		cartDTO = cartService.createCart(cartDTO);
+		logger.trace("Cart created. Cart Details:"+cartDTO);
+		return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.CREATED);
+	}
+	
+	
 	@RequestMapping(value="/cart/{cartItem}", method= RequestMethod.GET)
-	public ResponseEntity<CartDTO> getCartDetails(@PathVariable("cartItem") String cartItemId ) {
+	public ResponseEntity<CartDTO> viewCartDetails(@PathVariable("cartItem") String cartItemId ) {
+		logger.trace("Viewing cart details:"+cartItemId);
 		if(StringUtils.isEmpty(cartItemId) || !ShoppingCartUtil.isLong(cartItemId)) {
 			logger.error("Cart item is invalid: "+cartItemId);
 			throw new InvalidInputException("Cart item is invalid!!");
 		}
 		
 		CartDTO cartDTO = cartService.getCartDetails(cartItemId);
-		
+		logger.trace("Cart Details:"+cartDTO);
 		return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/cart", method= RequestMethod.POST)
-	public ResponseEntity<CartDTO> createCart(@Valid @RequestBody CartDTO cartDTO) {
-			
-		cartDTO = cartService.addCartDetails(cartDTO);
-		
-		return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.CREATED);
-	}
 	
 	@RequestMapping(value="/cart/{cartItem}/product", method= RequestMethod.POST)
 	public ResponseEntity<CartDTO> addProductToCart(@PathVariable("cartItem") String cartItemId,
 			@Valid @RequestBody ProductDTO productDTO ) {
 		
 		
-		CartDTO cartDTO = cartService.getCartDetails(cartItemId);
+		//CartDTO cartDTO = cartService.add(cartItemId);
 		
 		
 		
-		return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.OK);
+		//return new ResponseEntity<CartDTO>(cartDTO,HttpStatus.OK);
+		return null;
+	}
+	
+	@RequestMapping(value="/cart/{cartItem}/product", method= RequestMethod.POST)
+	public ResponseEntity<String> removeProductsFromCart(@PathVariable("cartItem") String cartItemId,
+			@Valid @RequestBody List<ProductDTO> productDTOs ) {
+		
+		logger.trace("Removing products:"+productDTOs);
+		cartService.removeProduct(cartItemId, productDTOs);
+		
+		
+		
+		return new ResponseEntity<String>(StringUtils.EMPTY,HttpStatus.NO_CONTENT);
 	}
 	
 		

@@ -24,7 +24,7 @@ public class ShoppingCartUtil {
 		}
 	}
 	
-	public static <T> Collector<T, ?, T> toSingleton() {
+	/*public static <T> Collector<T, ?, T> toSingleton() {
 	    return Collectors.collectingAndThen(
 	            Collectors.toList(),
 	            list -> {
@@ -34,5 +34,5 @@ public class ShoppingCartUtil {
 	                return list.get(0);
 	            }
 	    );
-	}
+	}*/
 }

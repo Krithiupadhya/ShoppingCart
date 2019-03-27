@@ -1,5 +1,6 @@
 package com.mindtree.shoppingcart.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,9 +17,9 @@ import com.mindtree.shoppingcart.dto.CartDTO;
 import com.mindtree.shoppingcart.dto.ProductDTO;
 import com.mindtree.shoppingcart.entity.Cart;
 import com.mindtree.shoppingcart.entity.CartItem;
-import com.mindtree.shoppingcart.entity.Product;
 import com.mindtree.shoppingcart.exception.ApplicationException;
 import com.mindtree.shoppingcart.exception.DataNotFoundException;
+import com.mindtree.shoppingcart.exception.InvalidInputException;
 import com.mindtree.shoppingcart.repository.CartRepository;
 import com.mindtree.shoppingcart.service.CartService;
 import com.mindtree.shoppingcart.util.ShoppingCartModelMappers;
@@ -52,7 +53,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public CartDTO addCartDetails(CartDTO cartDTO) {
+	public CartDTO createCart(CartDTO cartDTO) {
 		
 		cartDTO.setProducts(mergeProducts(cartDTO.getProducts()));
 		Cart cart= cartRepository.save(ShoppingCartModelMappers.getCart(cartDTO));
@@ -85,19 +86,24 @@ public class CartServiceImpl implements CartService {
 	
 	
 	@Override
-	public CartDTO updateProductInCart(String cartItemId, ProductDTO productDTO) {
+	public CartDTO updateProduct(String cartItemId, ProductDTO productDTO) {
 		
 		Cart cart=getCartById(cartItemId);
 		
 		
-		CartItem cartItem =cart.getCartItems().stream().filter(
-				t->(t.getProduct().getProductId()==productDTO.getProductId())).collect(ShoppingCartUtil.toSingleton());
+		Optional<CartItem> cartItem =cart.getCartItems().stream().filter(
+				t->(t.getProduct().getProductId()==productDTO.getProductId())).findFirst();
 		
-		if(cartItem!=null) {
-			cartItem.setQuantity(cartItem.getQuantity()+1);
+		
+		if(cartItem.isPresent()) {
+			if(productDTO.getQuantity()==0) {
+				cart.getCartItems().remove(cartItem.get());
+			}else {
+				cartItem.get().setQuantity(productDTO.getQuantity());
+			}
 		}else {
-			cartItem = new CartItem();
-			cartItem.setProduct(ShoppingCartModelMappers.getProduct(productDTO));
+			logger.info("Product cannot be updated!! Not available in the cart. Product:"+productDTO);
+			throw new InvalidInputException("Product cannot be updated!! Not available in the cart." );
 		}
 		
 		cartRepository.save(cart);
@@ -105,9 +111,18 @@ public class CartServiceImpl implements CartService {
 	}
 
 	
-	public boolean removeProductFromCart(String cartItemId, ProductDTO productDTO) {
+	public boolean removeProduct(String cartItemId, List<ProductDTO> productDTOs) {
 		
+		Cart cart=getCartById(cartItemId);
 		
+		Set<CartItem> cartItemsToRetain= cart.getCartItems().stream().filter(t-> !productDTOs.stream().anyMatch(f-> f.getProductId() == t.getProduct().getProductId())).collect(Collectors.toSet());
+		if(cartItemsToRetain.size()!=0) {
+			cart.setCartItems(cartItemsToRetain);
+		}else {
+			cart.setCartItems(null);
+		}
+		
+		cart.setCartItems(cartItemsToRetain);
 		return false;
 		
 	}

@@ -3,16 +3,17 @@ package com.mindtree.shoppingcart;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
-import com.mindtree.shoppingcart.aspect.MethodAspect;
-
 @Configuration
 public class ShoppingCartConfig {
 
+	/**
+	 * Log all the runtime request and responses
+	 * @return
+	 */
 	@Bean
 	public CommonsRequestLoggingFilter requestLoggingFilter() {
 	    CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
@@ -38,9 +39,5 @@ public class ShoppingCartConfig {
 	    bean.setValidationMessageSource(messageSource());
 	    return bean;
 	}
-/*	@Bean
-    public MethodAspect notifyAspect() {
-        return new MethodAspect();
-	}*/
-    
+
 }
