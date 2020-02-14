@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.mindtree.shoppingcart.entity.User;
 import com.mindtree.shoppingcart.repository.UserRepository;
 
+/**
+ * Class validate the userName against user table
+ * @author M1016156
+ *
+ */
 @Transactional
 public class UserExistsValidator implements ConstraintValidator<UserExists, User>{
 

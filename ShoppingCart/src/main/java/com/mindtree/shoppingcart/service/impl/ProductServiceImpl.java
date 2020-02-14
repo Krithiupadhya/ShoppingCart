@@ -1,6 +1,8 @@
 package com.mindtree.shoppingcart.service.impl;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
@@ -27,11 +29,22 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getAllProducts() throws ApplicationException {
 		List<Product> products= productRepository.findAll();
-		if(products==null || products.size()==0) {
-			logger.info("No products available in system!!");
+		if(Objects.isNull(products) || products.isEmpty()) {
+			logger.error("No products available in system!!");
 			throw new DataNotFoundException("No products available");
 		}
 		return products;
+	}
+
+	@Override
+	public Product getProductDetails(Long productId) throws ApplicationException {
+		Optional<Product> product = productRepository.findById(productId);
+
+		return product.orElseThrow(() -> {
+			logger.info("product doesnt exist in the system");
+			throw new DataNotFoundException("Invalid product Id: "+productId);
+		});
+	
 	}
 
 }

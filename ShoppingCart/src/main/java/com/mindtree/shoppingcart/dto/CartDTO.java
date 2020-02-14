@@ -6,6 +6,7 @@ import com.mindtree.shoppingcart.entity.User;
 import com.mindtree.shoppingcart.validators.UserExists;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Builder
 public class CartDTO {
 
 	@UserExists
